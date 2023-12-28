@@ -1,0 +1,25 @@
+logs:
+  - name: hhh
+    level: info
+    formatter: "%d %m %T"
+    appenders:
+      - type: StdoutLogAppender
+#        level: info
+      - type: FileLogAppender
+        file: /Users/gw/CLionProjects/HighPerformanceServer/LogDirectory/Log.txt
+        level: info
+  - name: system
+    level: debug
+    formatter: "%m  %n"
+    appenders:
+      - type: StdoutLogAppender
+        level: info
+      - type: FileLogAppender
+        file: /Users/gw/CLionProjects/HighPerformanceServer/LogDirectory/system.txt
+        formatter: "%T"
+        level: DEBUG
+      - type: FileLogAppender
+        file: /Users/gw/CLionProjects/HighPerformanceServer/LogDirectory/Log.txt
+        level: info
+
+

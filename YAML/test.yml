@@ -1,0 +1,60 @@
+logs:
+   name: root
+   level: info
+   formatter: "%d %T %m %n"
+system:
+  port: 9090
+  value: 15
+  vec: [1,5,77]
+  list: [1,8,6,9]
+  set: [0,8,7,7,7,7]
+  unorderedset: [5,2,0,1,3,1,4]
+  map:
+    k: 250
+    a: 100
+    c: 90
+  unorderedmap:
+    hhh: 100
+    hjk: 90
+class:
+  person:
+    name: gw
+    age: 18
+    sex: true
+
+  personmap:
+    person01:
+      name: gw
+      age: 18
+      sex: true
+    person02:
+      name: gwuy
+      age: 18
+      sex: true
+    person03:
+      name: gw
+      age: 18
+      sex: false
+  personmapvec:
+    person01:
+      - name: gw
+        age: 18
+        sex: true
+      - name: gwkk
+        age: 1000
+        sex: true
+      - name: gwiio
+        age: 18
+        sex: true
+    person02:
+      - name: gw
+        age: 18
+        sex: true
+      - name: gwkk
+        age: 1000
+        sex: true
+      - name: gwiio
+        age: 18
+        sex: true
+
+
