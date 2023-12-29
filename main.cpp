@@ -171,7 +171,7 @@ void test_class() {
 
 
 
-    p_person_value->addListener(10,[](const Person& old_value,const Person& new_value)
+    p_person_value->addListener([](const Person& old_value,const Person& new_value)
     {
         SUPERG_LOG_INFO(SUPERG_LOG_ROOT())<<"old_value:"<<old_value.toString()<<"  new_value:"<<new_value.toString();
     });
@@ -191,17 +191,18 @@ void test_class() {
 }
 void test_logs() {
     static superG::Logger::ptr logger=superG::LogMng::GetInstance()->getLogger("system");
-    SUPERG_LOG_INFO(logger)<<"hello system";
-    std::cout<<superG::LogMng::GetInstance()->toYamlString()<<std::endl;
+//    SUPERG_LOG_INFO(logger)<<"hello system";
+//    std::cout<<superG::LogMng::GetInstance()->toYamlString()<<std::endl;
     YAML::Node root=YAML::LoadFile("/Users/gw/CLionProjects/HighPerformanceServer/YAML/log.yml");
     superG::configure::LoadFromYaml(root);
-    std::cout<<superG::LogMng::GetInstance()->toYamlString()<<std::endl;
+//    std::cout<<superG::LogMng::GetInstance()->toYamlString()<<std::endl;
 
-    SUPERG_LOG_INFO(logger)<<"hello system";
+//    SUPERG_LOG_INFO(logger)<<"hello system";
 
-    logger->setFormmater("%m --- %d");
+//    logger->setFormmater("%m --- %d");
 
-    SUPERG_LOG_INFO(logger)<<"hello system";
+//    SUPERG_LOG_INFO(logger)<<"hello system";
+
 
 }
 
@@ -272,21 +273,27 @@ int main() {
 
 
 
-//  testyaml();
+ testyaml();
 
-//test_class();
-//test_logs();
+test_class();
+    test_logs();
+    superG::configure::Visit([](superG::ConfigVarBase::ptr pu)
+                             {
+                                 SUPERG_LOG_INFO(SUPERG_LOG_ROOT())<<pu->getName()<<"   "<<pu->getDescription();
 
-    std::vector<superG::Thread::ptr> threadPool;
-    for (int i = 0; i < 5; i++) {
-        superG::Thread::ptr thread(new superG::Thread(&fun1, "name" + std::to_string(i)));
-        threadPool.push_back(thread);
-    }
-    for (int i = 0; i < 5; i++) {
-        threadPool[i]->join();
-    }
 
-   std::cout<<count<<std::endl;
+                             });
+
+//    std::vector<superG::Thread::ptr> threadPool;
+//    for (int i = 0; i < 5; i++) {
+//        superG::Thread::ptr thread(new superG::Thread(&fun1, "name" + std::to_string(i)));
+//        threadPool.push_back(thread);
+//    }
+//    for (int i = 0; i < 5; i++) {
+//        threadPool[i]->join();
+//    }
+//
+//   std::cout<<count<<std::endl;
         return 0;
 
 

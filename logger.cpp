@@ -660,7 +660,7 @@ namespace superG
         {
 
 
-            p_to_logs->addListener(0XF1E231,[](const std::set<LogDefine>& old_value,const std::set<LogDefine>& new_value)
+            p_to_logs->addListener([](const std::set<LogDefine>& old_value,const std::set<LogDefine>& new_value)
             {
 
                 for(auto& i:new_value)

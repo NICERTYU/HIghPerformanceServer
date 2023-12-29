@@ -14,6 +14,7 @@
 #include <unordered_set>
 #include <functional>
 #include "logger.h"
+#include "thread.h"
 namespace superG
 {
     template<class T,class F>
@@ -295,6 +296,7 @@ namespace superG
     {
     public:
         typedef std::shared_ptr<ConfigVarBase> ptr;
+        typedef  ReadWriteMutex RWMutexType;
         ConfigVarBase(const std::string& name,const std::string& description):m_name(name),m_description(description){
 
             std::transform(m_name.begin(),m_name.end(),m_name.begin(),::tolower);
@@ -325,6 +327,7 @@ namespace superG
          std::string toString () override
          {
              try {
+                 ReadWriteMutex::ReadLock readLock(lock);
                  return VToStr()(m_val);
 
              }
@@ -339,11 +342,7 @@ namespace superG
          bool fromString(const std::string& val) override{
 
              try {
-                 T temp=StrToV()(val);
-                 setValue(temp);
-                 m_val=temp;
-
-
+                 setValue(StrToV()(val));
                  return true;
 
              }
@@ -356,41 +355,50 @@ namespace superG
              return false;
 
          };
-         T getValue() const{ return m_val;};
+        const T getValue(){
+            ReadWriteMutex::ReadLock readLock(lock);
+             return m_val;
+         };
          void setValue(const T& t){
 
-
-             if(m_val==t)
              {
-             return;
-             }
+                 ReadWriteMutex::ReadLock lock1(lock);
+                 if (m_val == t) {
+                     return;
+                 }
 
 
-             for(auto& it:m_cbs)
-             {
-                 it.second(m_val,t);
+                 for (auto &it: m_cbs) {
+                     it.second(m_val, t);
+                 }
              }
+             ReadWriteMutex::WriteLock lock1(lock);
+             m_val=t;
 
 
          };
         virtual std::string getTypeName() override{ return typeid(T).name();};
-        void addListener(uint64_t  key,on_change_callback cb)
+        void addListener(on_change_callback cb)
         {
-            m_cbs[key]=cb;
+            static uint64_t cb_id=0;
+            ReadWriteMutex::WriteLock lock1(lock);
+            m_cbs[cb_id]=cb;
         }
         on_change_callback getListener(uint64_t key)
         {
+            ReadWriteMutex::ReadLock lock1(lock);
             auto it=m_cbs.find(key);
              return    it==m_cbs.end()? nullptr:it->second;
         }
         void removeListener(uint64_t key)
         {
+            ReadWriteMutex::WriteLock lock1(lock);
             m_cbs.erase(key);
         }
 
 
     private:
-
+        RWMutexType lock;
         T m_val;
         std::map<uint64_t ,on_change_callback > m_cbs;
     };
@@ -398,10 +406,13 @@ namespace superG
     {
     public:
         typedef std::map<std::string ,ConfigVarBase::ptr > ConfigureMap;
+        typedef ReadWriteMutex RWmutexType;
         template<class T>
         static typename ConfigVar<T>::ptr Lookup(const std::string& name,const T& default_value
         ,const std::string& description)
         {
+            {
+                RWmutexType::ReadLock readlock(getMutex());
 //            auto it= Lookup<T>(name);
             auto it=getDatas().find(name);
 
@@ -428,7 +439,8 @@ namespace superG
                 throw std::invalid_argument(name);
 
             }
-
+            }
+            RWmutexType::WriteLock lock(getMutex());
             typename ConfigVar<T>::ptr p(new ConfigVar<T>(name,description,default_value));
             getDatas()[name]=p;
             return p;
@@ -439,6 +451,7 @@ namespace superG
         template<class T>
         static typename ConfigVar<T>::ptr Lookup(const std::string& name)
         {
+            RWmutexType::ReadLock lock(getMutex());
             auto it=getDatas().find(name);
             if(it==getDatas().end())
             {
@@ -452,7 +465,7 @@ namespace superG
 
 
          static ConfigVarBase::ptr LookupBase(const std::string& name);
-
+         static void Visit(std::function<void(ConfigVarBase::ptr)> cb);
     private:
         static ConfigureMap& getDatas()
                 {
@@ -461,6 +474,13 @@ namespace superG
                       static ConfigureMap m_configuremap;
                         return m_configuremap;
                 }
+        static RWmutexType & getMutex()
+        {
+
+
+            static RWmutexType m_mutex;
+            return m_mutex;
+        }
     };
 
 }

@@ -8,6 +8,7 @@ namespace superG
 //    configure::ConfigureMap configure::m_configuremap;
      ConfigVarBase::ptr configure::LookupBase(const std::string& name)
     {
+        RWmutexType::ReadLock lock(getMutex());
          auto it=getDatas().find(name);
         return it==getDatas().end()? nullptr:it->second;
     }
@@ -67,4 +68,16 @@ namespace superG
         }
 
     }
+
+    void configure::Visit(std::function<void(ConfigVarBase::ptr)> cb)
+    {
+        RWmutexType::ReadLock lock(getMutex());
+        ConfigureMap& m=getDatas();
+        for(auto i=m.begin();i!=m.end();i++)
+        {
+            cb(i->second);
+        }
+
+    }
+
 }
