@@ -10,4 +10,5 @@
 #include "singleton.h"
 #include "util.h"
 #include "config.h"
+#include "macro.h"
 #endif //HIGHPERFORMANCESERVER_SUPERG_H

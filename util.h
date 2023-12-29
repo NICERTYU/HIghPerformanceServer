@@ -7,7 +7,9 @@
 
 #include <unistd.h>       // for syscall()
 #include <sys/syscall.h>  // for SYS_xxx definitions
-
+#include<vector>
+#include<string>
+#include "logger.h"
 //int id = syscall(SYS_thread_selfid); // for mac os x
 #include <csignal>
 #include<sys/syscall.h>
@@ -18,6 +20,10 @@ namespace superG {
     pid_t GetThreadId();
 
     uint32_t GetFiberd();
+
+    void BackTrace(std::vector<std::string> &vec,int size,int skip=1);
+
+    std::string BacktraceToString(int size,const std::string& prefix,int skip=2);
 
 
 

@@ -223,6 +223,13 @@ void fun1()
 
 
 }
+void test_assert()
+{
+//    SUPERG_LOG_INFO(logger_root)<<superG::BacktraceToString(10,"  ");
+//    SUPERG_ASSERT(false);
+      SUPERG_ASSERT1(false,"kkk");
+
+}
 void fun2()
 {
 
@@ -273,16 +280,16 @@ int main() {
 
 
 
- testyaml();
-
-test_class();
-    test_logs();
-    superG::configure::Visit([](superG::ConfigVarBase::ptr pu)
-                             {
-                                 SUPERG_LOG_INFO(SUPERG_LOG_ROOT())<<pu->getName()<<"   "<<pu->getDescription();
-
-
-                             });
+// testyaml();
+//
+//test_class();
+//    test_logs();
+//    superG::configure::Visit([](superG::ConfigVarBase::ptr pu)
+//                             {
+//                                 SUPERG_LOG_INFO(SUPERG_LOG_ROOT())<<pu->getName()<<"   "<<pu->getDescription();
+//
+//
+//                             });
 
 //    std::vector<superG::Thread::ptr> threadPool;
 //    for (int i = 0; i < 5; i++) {
@@ -294,6 +301,9 @@ test_class();
 //    }
 //
 //   std::cout<<count<<std::endl;
+
+
+       test_assert();
         return 0;
 
 

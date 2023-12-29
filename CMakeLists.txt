@@ -15,6 +15,7 @@ add_executable(HighPerformanceServer main.cpp
         thread.h
         thread.cpp
         superG.h
+        macro.h
 
 
 )
