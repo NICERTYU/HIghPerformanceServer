@@ -322,6 +322,7 @@ int main() {
        superG::Fiber::ptr  fiber(new superG::Fiber(runinFiber));
        fiber->SwapIn();
        fiber->SwapIn();
+       std::cout<<"hhhhh,i'm mai"<<std::endl;
         return 0;
 
 

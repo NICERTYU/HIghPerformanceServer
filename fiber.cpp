@@ -48,12 +48,11 @@ namespace superG
    {
            SUPERG_ASSERT1(false,"getcontext")
    }
+   //一次执行
    m_ctx.uc_link= nullptr;
    m_ctx.uc_stack.ss_sp=m_stack;
    m_ctx.uc_stack.ss_size=m_stacksize;
    makecontext(&m_ctx,&Fiber::MainFunc,0);
-
-
 
 
    }
@@ -165,6 +164,8 @@ namespace superG
             pt->m_state=EXCEPT;
             SUPERG_LOG_ERROR(g_logger)<<"Fiber Exception";
         }
+        pt->SwapOut();
+
 
 
 
