@@ -3,6 +3,7 @@
 //
 #include "util.h"
 #include "execinfo.h"
+#include "fiber.h"
 namespace superG
 {
 superG::Logger::ptr log2phys= SUPERG_LOG_NAME("system");
@@ -25,7 +26,7 @@ superG::Logger::ptr log2phys= SUPERG_LOG_NAME("system");
     }
     uint32_t GetFiberd()
     {
-        return 0;
+        return Fiber::GetFiberId();
     }
 
     void BackTrace(std::vector<std::string> &vec,int size,int skip)

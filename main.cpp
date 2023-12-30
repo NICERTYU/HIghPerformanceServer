@@ -238,7 +238,17 @@ void teatThread()
 {
 
 }
+
+void runinFiber()
+{
+    SUPERG_LOG_INFO(logger_root)<<"hhhhhh";
+    superG::Fiber::YieldToHold();
+    SUPERG_LOG_INFO(logger_root)<<"jjjjj";
+
+
+}
 int main() {
+
 //    superG::Logger::ptr logger(new superG::Logger);
 //    logger->addAppender(superG::LogAppender::ptr (new superG::StdoutLogAppender));
 ////    superG::LogEvent::ptr event(new superG::LogEvent(logger,superG::LogLevel::DEBUG,__FILE_NAME__,__LINE__,superG::GetThreadId(),superG::GetFiberd(),0,
@@ -303,7 +313,15 @@ int main() {
 //   std::cout<<count<<std::endl;
 
 
-       test_assert();
+
+
+//       test_assert();
+        superG::Fiber::GetThis();
+        SUPERG_LOG_INFO(logger_root)<<"ppppp";
+
+       superG::Fiber::ptr  fiber(new superG::Fiber(runinFiber));
+       fiber->SwapIn();
+       fiber->SwapIn();
         return 0;
 
 

@@ -16,6 +16,8 @@ add_executable(HighPerformanceServer main.cpp
         thread.cpp
         superG.h
         macro.h
+        fiber.h
+        fiber.cpp
 
 
 )

@@ -11,4 +11,5 @@
 #include "util.h"
 #include "config.h"
 #include "macro.h"
+#include "fiber.h"
 #endif //HIGHPERFORMANCESERVER_SUPERG_H
