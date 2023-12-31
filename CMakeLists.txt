@@ -18,6 +18,8 @@ add_executable(HighPerformanceServer main.cpp
         macro.h
         fiber.h
         fiber.cpp
+        scheduler.h
+        scheduler.cpp
 
 
 )

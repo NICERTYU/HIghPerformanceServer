@@ -97,6 +97,14 @@ build CMakeFiles/HighPerformanceServer.dir/fiber.cpp.o: CXX_COMPILER__HighPerfor
   OBJECT_DIR = CMakeFiles/HighPerformanceServer.dir
   OBJECT_FILE_DIR = CMakeFiles/HighPerformanceServer.dir
 
+build CMakeFiles/HighPerformanceServer.dir/scheduler.cpp.o: CXX_COMPILER__HighPerformanceServer_unscanned_Debug /Users/gw/CLionProjects/HighPerformanceServer/scheduler.cpp || cmake_object_order_depends_target_HighPerformanceServer
+  DEFINES = -DBOOST_ALL_NO_LIB -DBOOST_DATE_TIME_DYN_LINK -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_SYSTEM_DYN_LINK -DBOOST_THREAD_DYN_LINK
+  DEP_FILE = CMakeFiles/HighPerformanceServer.dir/scheduler.cpp.o.d
+  FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.0.sdk -mmacosx-version-min=13.5 -fcolor-diagnostics
+  INCLUDES = -I/usr/local/include/yaml-cpp -isystem /Users/gw/anaconda3/include
+  OBJECT_DIR = CMakeFiles/HighPerformanceServer.dir
+  OBJECT_FILE_DIR = CMakeFiles/HighPerformanceServer.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target HighPerformanceServer
@@ -105,7 +113,7 @@ build CMakeFiles/HighPerformanceServer.dir/fiber.cpp.o: CXX_COMPILER__HighPerfor
 #############################################
 # Link the executable HighPerformanceServer
 
-build HighPerformanceServer: CXX_EXECUTABLE_LINKER__HighPerformanceServer_Debug CMakeFiles/HighPerformanceServer.dir/main.cpp.o CMakeFiles/HighPerformanceServer.dir/config.cpp.o CMakeFiles/HighPerformanceServer.dir/logger.cpp.o CMakeFiles/HighPerformanceServer.dir/util.cpp.o CMakeFiles/HighPerformanceServer.dir/thread.cpp.o CMakeFiles/HighPerformanceServer.dir/fiber.cpp.o | /Users/gw/anaconda3/lib/libboost_date_time.dylib /Users/gw/anaconda3/lib/libboost_filesystem.dylib /Users/gw/anaconda3/lib/libboost_system.dylib /Users/gw/anaconda3/lib/libboost_thread.dylib /usr/local/lib/libyaml-cpp.a
+build HighPerformanceServer: CXX_EXECUTABLE_LINKER__HighPerformanceServer_Debug CMakeFiles/HighPerformanceServer.dir/main.cpp.o CMakeFiles/HighPerformanceServer.dir/config.cpp.o CMakeFiles/HighPerformanceServer.dir/logger.cpp.o CMakeFiles/HighPerformanceServer.dir/util.cpp.o CMakeFiles/HighPerformanceServer.dir/thread.cpp.o CMakeFiles/HighPerformanceServer.dir/fiber.cpp.o CMakeFiles/HighPerformanceServer.dir/scheduler.cpp.o | /Users/gw/anaconda3/lib/libboost_date_time.dylib /Users/gw/anaconda3/lib/libboost_filesystem.dylib /Users/gw/anaconda3/lib/libboost_system.dylib /Users/gw/anaconda3/lib/libboost_thread.dylib /usr/local/lib/libyaml-cpp.a
   FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.0.sdk -mmacosx-version-min=13.5
   LINK_LIBRARIES = -Wl,-rpath,/Users/gw/anaconda3/lib  /Users/gw/anaconda3/lib/libboost_date_time.dylib  /Users/gw/anaconda3/lib/libboost_filesystem.dylib  /Users/gw/anaconda3/lib/libboost_system.dylib  /Users/gw/anaconda3/lib/libboost_thread.dylib  /usr/local/lib/libyaml-cpp.a
   OBJECT_DIR = CMakeFiles/HighPerformanceServer.dir
