@@ -164,7 +164,9 @@ namespace superG
             pt->m_state=EXCEPT;
             SUPERG_LOG_ERROR(g_logger)<<"Fiber Exception";
         }
-        pt->SwapOut();
+        auto raw=pt.get();
+        pt.reset();
+        raw->SwapOut();
 
 
 

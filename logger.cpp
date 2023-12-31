@@ -7,9 +7,10 @@
 namespace superG
 {
     LogEvent::LogEvent(std::shared_ptr<Logger> logger,LogLevel::Level level,const char *m_file, int32_t m_line, int32_t m_threadid, uint32_t m_fiberid, uint32_t m_elapse
-                       , uint64_t m_time):m_file(m_file),m_time(m_time),m_elapse(m_elapse),m_fiberid(m_fiberid),m_threadid(m_threadid)
+                       , uint64_t m_time
+                       ,const std::string& thread_name):m_file(m_file),m_time(m_time),m_elapse(m_elapse),m_fiberid(m_fiberid),m_threadid(m_threadid)
                        ,m_line(m_line)
-                       ,m_level(level),m_logger(logger){
+                       ,m_level(level),m_logger(logger),m_thread_name(thread_name){
 
     }
 
@@ -28,7 +29,7 @@ namespace superG
     }
    Logger::Logger(const std::string& name):m_name(name),m_level(LogLevel::DEBUG)
    {
-     m_formmatter.reset(new LogFormmatter("%t  %d %T  %p   %f  %F  %l   %m  %T %n"));
+     m_formmatter.reset(new LogFormmatter("%t  %d %T  %p   %f  %F  %l   %m  %T %n %N"));
 
 
    }
@@ -372,7 +373,8 @@ namespace superG
                 XX(m,MessageFormatItem),
                 XX(T,TabFormatItem),
                 XX(F,FiberidFormatItem),
-                XX(k,NameFormatItem)
+                XX(k,NameFormatItem),
+                XX(N,ThreadNameFormatItem)
 
 
 
@@ -478,7 +480,7 @@ namespace superG
 
     LogManager::LogManager() {
         m_root.reset(new Logger);
-        m_root->setFormmater("%t  %d %T  %p   %f  %F  %l   %m  %T %n");
+        m_root->setFormmater("%t  %d %T  %p   %f  %F  %l   %m  %T   %N %n");
         m_root->addAppender(LogAppender::ptr (new StdoutLogAppender));
         m_loggers[m_root->m_name]=m_root;
 

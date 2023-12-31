@@ -20,7 +20,7 @@
 
 #define SUPERG_LOG_LEVEL(logger,level) \
         if(logger->getLevel()<=level)    \
-           superG:: LogEventWrap(superG::LogEvent::ptr(new superG::LogEvent(logger,level,__FILE_NAME__,__LINE__,superG::GetThreadId(),superG::GetFiberd(),0,time(0)))) \
+           superG:: LogEventWrap(superG::LogEvent::ptr(new superG::LogEvent(logger,level,__FILE_NAME__,__LINE__,superG::GetThreadId(),superG::GetFiberd(),0,time(0),superG::Thread::GetName()))) \
              .getSS()
 
 
@@ -33,7 +33,7 @@
 
 #define SUPERG_LOG_FMT_LEVEL(logger,level,fmt,...) \
         if(logger->getLevel()<=level)    \
-           superG:: LogEventWrap(superG::LogEvent::ptr(new superG::LogEvent(logger,level,__FILE_NAME__,__LINE__,superG::GetThreadId(),superG::GetFiberd(),0,time(0)))) \
+           superG:: LogEventWrap(superG::LogEvent::ptr(new superG::LogEvent(logger,level,__FILE_NAME__,__LINE__,superG::GetThreadId(),superG::GetFiberd(),0,time(0),superG::Thread::GetName()))) \
              .getEvent()->format(fmt,__VA_ARGS__)
 
 
@@ -82,7 +82,7 @@ namespace superG
         int32_t m_threadid,
         uint32_t m_fiberid,
         uint32_t m_elapse,
-        uint64_t m_time);
+        uint64_t m_time,const std::string& thread_name);
         int32_t getLine() const {return m_line;};
         int32_t getThreadId() const {return m_threadid;};
         uint32_t getFiberid() const {return m_fiberid;};
@@ -90,6 +90,7 @@ namespace superG
         std::string getContent() const {return m_ss.str();};
         uint64_t getTime() const {return m_time;};
         const char * getFile() const {return m_file;};
+        const std::string& getThreadName() const {return m_thread_name;};
 
 
        std::stringstream& getSS(){return m_ss;};
@@ -108,6 +109,7 @@ namespace superG
         uint64_t m_time;
         std::shared_ptr<Logger> m_logger;
         LogLevel::Level m_level;
+        std::string m_thread_name;
     };
 
     class LogEventWrap
@@ -326,6 +328,17 @@ class Logger:public std::enable_shared_from_this<Logger>
         virtual void format(std::shared_ptr<Logger> logger,LogLevel::Level level,std::ostream& os,LogEvent::ptr event)
         {
             os<<event->getFile();
+        }
+    };
+    class  ThreadNameFormatItem:public LogFormmatter::FormatItem
+    {
+    public:
+        typedef std::shared_ptr<ThreadNameFormatItem> ptr;
+        ThreadNameFormatItem(const std::string str): LogFormmatter::FormatItem(str){};
+
+        virtual void format(std::shared_ptr<Logger> logger,LogLevel::Level level,std::ostream& os,LogEvent::ptr event)
+        {
+            os<<event->getThreadName();
         }
     };
     class FiberidFormatItem:public LogFormmatter::FormatItem
